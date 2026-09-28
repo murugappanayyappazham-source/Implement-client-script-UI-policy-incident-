@@ -1,4 +1,4 @@
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/3b4e2089-995a-47f6-8cab-8c5327f89ca6" /># 06_Project_Testing.md
+
 
 ## Phase 6: Quality Assurance, Test Strategy & Verification
 
@@ -56,7 +56,8 @@ This document defines the comprehensive Quality Assurance (QA) strategy, unit te
 
  <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/ec34c67d-ca48-45c2-aaa7-8281429ddbd0" />
  
- <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/222bad9f-8dd2-4ca2-87e8-fe71456def1d" />!
+ <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/222bad9f-8dd2-4ca2-87e8-fe71456def1d" />
+ <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/3b4e2089-995a-47f6-8cab-8c5327f89ca6" />
  
 
 
