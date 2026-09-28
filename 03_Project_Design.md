@@ -1,46 +1,35 @@
-# 04_Implementation_and_Testing.md
+# 03_Project_Design.md
 
-## Phase 4: Implementation, Verification & Testing
+## Phase 3: Project Design & Architecture
 
 ### 1. Executive Summary
-This document provides the step-by-step implementation guide, validation instructions, test cases, and deployment verification for the **Implement Client Script & UI Policy (Incident)** project. It serves as a blueprint for ServiceNow administrators and developers to build, test, and audit all client-side configurations across target instances.
+This document defines the detailed technical architecture, design specifications, and procedural workflows for the **Implement Client Script & UI Policy (Incident)** solution. It outlines the form-level event execution lifecycle, client-side data flows, UI Policy logic structures, and exact JavaScript implementation logic for each ServiceNow component.
 
 ---
 
-### 2. Step-by-Step Implementation Guide
+### 2. Architecture & Design Diagram
++-----------------------------------------------------------------------------------+|                                 INCIDENT FORM / LIST                              |+-----------------------------------------------------------------------------------+|                                   |                                |v                                   v                                v+-----------------------+   +-------------------------------+   +-------------------+|  UI Policy Execution  |   |    onChange Client Script     |   |  onSubmit Script  || (High Impact Control) |   | (Auto set urgency high impact)|   | (Save Validation) |+-----------------------+   +-------------------------------+   +-------------------+| Condition:            |   | Trigger: Impact field changes |   | Trigger: Form     || Impact == '1' (High)  |   | Evaluation:                   |   | submission event  ||                       |   | If newValue == '1':           |   | Evaluation:       || Actions:              |   | - g_form.setValue('urgency')  |   | If impact == '1'  || - assignment_group    |   | - g_form.addInfoMessage()     |   | && assigned_to==""||   Mandatory = true    |   +-------------------------------+   | Actions:          || - urgency             |                                       | - showErrorBox()  ||   Read-only = true    |                                       | - return false    |+-----------------------+                                       +-------------------+|[Block Record Save]|+-------------------+|  onCellEdit Script|| (List View Edit)  |+-------------------+| Trigger: Double-  || click State cell  || Actions:          || - alert() modal   || - callback(false) |+-------------------+
+---
 
-#### Step 1: Create the UI Policy (`High Impact Control`)
-1. Navigate to **Service Catalog / System Policy > Rules > UI Policies** in ServiceNow.
-2. Click **New** and configure the header parameters:
-   * **Table:** `Incident [incident]`
-   * **Short Description:** `High Impact Control`
-   * **Global:** `true`
-   * **On load:** `true`
-   * **Reverse if false:** `true`
-3. Under **Conditions**, set: `[Impact] [is] [1 - High]`.
-4. Click **Submit** or **Save**.
-5. Scroll to the **UI Policy Actions** related list and add two actions:
-   * **Action 1:** Field Name: `assignment_group` | Mandatory: `True` | Read only: `False` | Visible: `Leave alone`
-   * **Action 2:** Field Name: `urgency` | Mandatory: `Leave alone` | Read only: `True` | Visible: `Leave alone`
+### 3. Workflow & Data Flow Sequences
 
-#### Step 2: Create the `onChange` Client Script (Auto-Set Urgency)
-1. Navigate to **System Definition > Client Scripts** and click **New**.
-2. Populate parameters:
-   * **Name:** `Auto set urgency for high impact`
-   * **Table:** `Incident [incident]`
-   * **UI Type:** `All`
-   * **Type:** `onChange`
-   * **Field name:** `impact`
-   * **Active:** `true`
-3. Insert script logic into the script field:
-   ```javascript
-   function onChange(control, oldValue, newValue, isLoading) {
-       if (isLoading || newValue == '') {
-           return;
-       }
-       
-       if (newValue == '1') {
-           g_form.setValue('urgency', '1');
-           g_form.addInfoMessage('Urgency set to High for High impact incident.');
-       }
-   }
+[User Selects Impact = "1 - High"]
+│
+├─► 1. UI Policy Triggers:
+│      ├─► Sets Assignment Group -> Mandatory
+│      └─► Sets Urgency -> Read-Only
+│
+├─► 2. onChange Script Triggers:
+│      ├─► Auto-populates Urgency to "1 - High"
+│      └─► Displays Info Message banner on form
+│
+[User Clicks "Submit" or "Update"]
+│
+└─► 3. onSubmit Script Triggers:
+├─► Checks if Assigned To is empty
+├─► IF empty: Shows error box under Assigned To & cancels save (return false)
+└─► IF populated: Passes validation (return true) & saves record   [User Edits State Field in Incident List View]
+│
+└─► 4. onCellEdit Script Triggers:
+├─► Displays alert: "State cannot be updated using list editing..."
+└─► Cancels edit callback (callback(false))   
