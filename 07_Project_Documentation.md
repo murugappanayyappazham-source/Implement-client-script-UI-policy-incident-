@@ -17,5 +17,18 @@ This document provides the final administrative handoff package, deployment runb
 | **Prevent state change via list edit** | Client Script (`onCellEdit`) | `incident` | `cs_prevent_list_edit_state` | Blocks inline list edits on `State` field. |
 
 ---
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/55377e49-d448-462f-9f30-0debf2bace27" />
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/cb9b1876-d384-4bfd-bad1-635334a8dbd4" />
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/2cb68b1f-1a73-4311-a659-002c7b2f19da" />
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/e7f08509-8ce4-4eba-ada4-c30ec8096470" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/13fb9de8-0019-4aa9-be09-359eb76e1323" />
+
+
+
+
+
 
 ### 3. Deployment Runbook (Migration Instructions)
